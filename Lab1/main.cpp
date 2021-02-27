@@ -67,20 +67,34 @@ void down(shape &p,  const shape &q)
 
 void  left(shape &p,  const shape &q)
 {
-    point n = q.south( );
-    point s = p.north( );
-    point w = q.east( );
-    point e = p.west( );
-    p.move(w.x - e.x, n.y - s.y/2);
+    point w = q.west();
+    point e = p.east();
+    p.move(w.x - e.x, w.y - e.y);
 }
 
 void right(shape &p,  const shape &q)
 {
-    point n = q.south( );
-    point s = p.north( );
-    point e = q.west( );
-    point w = p.east( );
-    p.move(e.x - w.x, n.y - s.y/2);
+    point e = q.east();
+    point w = p.west();
+    p.move(e.x - w.x , e.y - w.y);
+}
+
+void rghtcorn(shape &p,  const shape &q)
+{
+    point ne = q.neast();
+    point sw = p.swest();
+    p.move(ne.x - sw.x, ne.y - sw.y - 1);
+}
+void lftcorn(shape &p,  const shape &q)
+{
+    point nw = q.nwest();
+    point se = p.seast();
+    p.move(nw.x - se.x, nw.y - se.y - 1  );
+}
+void  CloneNCon (shape &p1,shape &p2, const shape &q, int num)
+{
+   if(num){left(p1,q); right(p2,q);}
+   else{lftcorn(p1,q);rghtcorn(p2,q);}
 }
 // Cборная пользовательская фигура - физиономия
 class myshape : public rectangle { // Моя фигура ЯВЛЯЕТСЯ
@@ -88,6 +102,7 @@ class myshape : public rectangle { // Моя фигура ЯВЛЯЕТСЯ
     line l_eye; // левый глаз – моя фигура СОДЕРЖИТ линию
     line r_eye; // правый глаз
     line mouth; // рот
+    square nose; // НОС !!!
 public:
     myshape(point, point);
     void draw( );
@@ -100,7 +115,8 @@ myshape :: myshape(point a, point b)
           h(neast( ).y - swest( ).y + 1), // - строго в порядке объявления!
           l_eye(point(swest( ).x + 2, swest( ).y + h * 3 / 4), 2),
           r_eye(point(swest( ).x + w - 4, swest( ).y + h * 3 / 4), 2),
-          mouth(point(swest( ).x + 2, swest( ).y + h / 4), w - 4)
+          mouth(point(swest( ).x + 2, swest( ).y + h / 4), w - 4),
+          nose(point(b.x-a.x/2+1,b.y-a.y/2),2)
 { }
 void myshape :: draw( )
 {
@@ -113,21 +129,26 @@ void myshape :: move(int a, int b)
 {
     rectangle :: move(a, b);
     l_eye.move(a, b);  r_eye.move(a, b);
+            nose.move(a,b);
     mouth.move(a, b);
 }
 int main( )
 {   setlocale(LC_ALL, "Rus");
     screen_init( );
 //== 1.Объявление набора фигур ==
-    rectangle hat(point(0, 0), point(10, 8));//st 0 0 14 5
-    line brim(point(0,15),17);//st .. 15 17
-    myshape face(point(15,10), point(35,18));//st .. 27 18
-    h_circle beard(point(35,10), point(50,20));//st 40 10  50 20
+    rectangle hat(point(5, 1), point(10, 8));//st 0 0 14 5
+    line brim(point(5,0),17);//st .. 15 17
+    myshape face(point(25,10), point(45,18));//st .. 27 18
+    h_circle beard(point(55,10), point(70,20));//st 40 10  50 20
+    square ear_1(point(5,10),2);
+    square ear_2(point(8,10),2);
+    square feather_1(point(50,5),3);
+    square feather_2(point(55,5),3);
     shape_refresh( );
     std::cout << "=== Generated... ===\n";
     std::cin.get(); //Смотреть исходный набор
 //== 2.Подготовка к сборке ==
-    hat.rotate_right( );
+    hat.rotate_right( ); //поворот шляпы
     brim.resize(2);
     face.resize(2);
     beard.flip_vertically();
@@ -139,6 +160,8 @@ int main( )
     up(brim, face);
     up(hat, brim);
     down(beard, face);
+    CloneNCon(ear_1,ear_2,face,1);
+    CloneNCon(feather_1,feather_2,hat,0);
     shape_refresh( );
     std::cout << "=== Ready! ===\n";
     std::cin.get(); //Смотреть результат
