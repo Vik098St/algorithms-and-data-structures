@@ -1,0 +1,17 @@
+Hello GIT!
+
+Ok,dude,you in the Git now. Here is functional that you can use:
+
+git clone <link_that_you_copy> //копирование данных репозитория
+
+git status //текущий статус изменений
+
+git add <файл> //добавить в отслеживаемые
+
+git commit -m "Комментарий изменений" //создать контейнер для отправки
+
+git push //отправка изменений на хостинг
+
+git push origin master //отправка изменений на хостинг
+
+git branch 
