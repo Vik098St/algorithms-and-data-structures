@@ -1,3 +1,0 @@
-C:/Users/Vik_S/CLionProjects/Lab3_Sem4/cmake-build-debug/CMakeFiles/Lab3_Sem4.dir
-C:/Users/Vik_S/CLionProjects/Lab3_Sem4/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/Vik_S/CLionProjects/Lab3_Sem4/cmake-build-debug/CMakeFiles/rebuild_cache.dir
