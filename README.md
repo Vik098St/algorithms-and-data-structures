@@ -1,2 +1,2 @@
 # algorithms-and-data-structures
-Лабы по алгосам 4й сем
+Лабы по алгоритмам 4й сем
